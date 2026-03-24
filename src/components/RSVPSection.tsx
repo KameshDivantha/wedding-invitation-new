@@ -3,27 +3,72 @@ import { motion } from 'framer-motion';
 import { AnimatedSection } from './AnimatedSection';
 import { submitRSVP } from '../lib/firebase';
 import { Heart } from 'lucide-react';
+import { RomanticModal } from './RomanticModal';
 
 export function RSVPSection() {
   const [name, setName] = useState('');
-  const [attendance, setAttendance] = useState<
-    'attending' | 'declining' | null>(
-    null);
+  const [attendance, setAttendance] = useState<'attending' | 'declining' | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    'idle' | 'success' | 'error'>(
-    'idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [modal, setModal] = useState({ 
+    isOpen: false, 
+    title: '', 
+    message: '', 
+    type: 'success' as 'success' | 'error' | 'loading' 
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !attendance) return;
+    console.log('RSVP Form submitted', { name, attendance });
+    if (!name.trim() || !attendance) {
+      console.warn('Missing name or attendance');
+      return;
+    }
     setIsSubmitting(true);
     setSubmitStatus('idle');
-    const result = await submitRSVP(name, attendance);
-    setIsSubmitting(false);
-    if (result.success) {
-      setSubmitStatus('success');
-    } else {
+    setModal({
+      isOpen: true,
+      title: 'Sending Your Love...',
+      message: 'Please wait a moment while we save your response.',
+      type: 'loading'
+    });
+
+    try {
+      console.log('Calling submitRSVP...');
+      const result = await submitRSVP(name, attendance);
+      console.log('submitRSVP result:', result);
+      setIsSubmitting(false);
+      
+      if (result.success) {
+        setSubmitStatus('success');
+        const isAttending = attendance === 'attending';
+        setModal({
+          isOpen: true,
+          title: isAttending ? 'We Can\'t Wait!' : 'We\'ll Miss You!',
+          message: isAttending 
+            ? `Thank you, ${name}! We're so joyful to have you celebrate with us.` 
+            : `Thank you for letting us know, ${name}. You'll be with us in spirit!`,
+          type: 'success'
+        });
+      } else {
+        setSubmitStatus('error');
+        setModal({
+          isOpen: true,
+          title: 'Almost There...',
+          message: 'Something went wrong while saving your response. Please try one more time!',
+          type: 'error'
+        });
+      }
+    } catch (err) {
+      console.error('Fatal error in handleSubmit:', err);
+      setIsSubmitting(false);
       setSubmitStatus('error');
+      setModal({
+        isOpen: true,
+        title: 'Connection Issue',
+        message: 'A fatal error occurred. Please check your internet connection.',
+        type: 'error'
+      });
     }
   };
   return (
@@ -124,6 +169,14 @@ export function RSVPSection() {
           }
         </div>
       </div>
+      
+      <RomanticModal
+        isOpen={modal.isOpen}
+        onClose={() => setModal({ ...modal, isOpen: false })}
+        title={modal.title}
+        message={modal.message}
+        type={modal.type}
+      />
     </AnimatedSection>);
 
 }
