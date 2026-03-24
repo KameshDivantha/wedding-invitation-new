@@ -1,0 +1,162 @@
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap');
+
+/* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+:root {
+  --color-lavender-wash: rgba(200, 162, 200, 0.15);
+  --color-rose-wash: rgba(212, 132, 154, 0.1);
+}
+body {
+  @apply bg-wedding-bg text-wedding-text font-serif;
+  overflow-x: hidden;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* Watercolor wash divider */
+.watercolor-divider {
+  height: 80px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(200, 162, 200, 0.12) 20%,
+    rgba(200, 162, 200, 0.2) 50%,
+    rgba(200, 162, 200, 0.12) 80%,
+    transparent 100%
+  );
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40 Q150 10 300 45 Q450 80 600 35 Q750 -10 900 40 Q1050 90 1200 30 L1200 80 L0 80Z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40 Q150 10 300 45 Q450 80 600 35 Q750 -10 900 40 Q1050 90 1200 30 L1200 80 L0 80Z' fill='white'/%3E%3C/svg%3E");
+  mask-size: cover;
+  -webkit-mask-size: cover;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F8F6FC;
+}
+::-webkit-scrollbar-thumb {
+  background: #C8A2C8;
+  border-radius: 3px;
+}
+
+/* ================================================
+   ANIMATION KEYFRAMES
+   ================================================ */
+
+/* Floating petal drift */
+@keyframes float-petal {
+  0%   { transform: translateY(0px) translateX(0px) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.7; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(-100vh) translateX(60px) rotate(720deg); opacity: 0; }
+}
+
+/* Shimmer / sparkle */
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Soft glow pulse */
+@keyframes glow-pulse {
+  0%, 100% { text-shadow: 0 0 20px rgba(155, 124, 184, 0.3), 0 0 40px rgba(155, 124, 184, 0.1); }
+  50%       { text-shadow: 0 0 40px rgba(155, 124, 184, 0.6), 0 0 80px rgba(155, 124, 184, 0.2); }
+}
+
+/* Heartbeat */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14%       { transform: scale(1.18); }
+  28%       { transform: scale(1); }
+  42%       { transform: scale(1.12); }
+  56%       { transform: scale(1); }
+}
+
+/* Blob drift */
+@keyframes blob-drift {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33%       { transform: translate(20px, -20px) scale(1.05); }
+  66%       { transform: translate(-15px, 15px) scale(0.95); }
+}
+
+/* Float up-down */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+/* Fade in from bottom */
+@keyframes fade-in {
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Timeline dot pulse ring */
+@keyframes ring-pulse {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* ================================================
+   ANIMATION UTILITIES
+   ================================================ */
+.animate-fade-in       { animation: fade-in 0.6s ease-out forwards; }
+.animate-heartbeat     { animation: heartbeat 1.6s ease-in-out infinite; }
+.animate-float         { animation: float 4s ease-in-out infinite; }
+.animate-blob          { animation: blob-drift 8s ease-in-out infinite; }
+.animate-shimmer       { animation: shimmer 3s linear infinite; }
+.animate-glow-pulse    { animation: glow-pulse 3s ease-in-out infinite; }
+
+/* Petal utility */
+.petal {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50% 0 50% 0;
+  animation: float-petal linear infinite;
+  opacity: 0;
+}
+
+/* Glassmorphism card */
+.glass-card {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(200,162,200,0.25);
+}
+
+/* Shimmer text gradient */
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #9B7CB8 0%,
+    #C8A2C8 30%,
+    #D4849A 50%,
+    #C8A2C8 70%,
+    #9B7CB8 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Ring pulse for timeline dots */
+.ring-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: ring-pulse 1.8s ease-out infinite;
+}
