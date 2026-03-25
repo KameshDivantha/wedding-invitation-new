@@ -55,7 +55,7 @@ export function RSVPSection() {
         setModal({
           isOpen: true,
           title: 'Almost There...',
-          message: 'Something went wrong while saving your response. Please try one more time!',
+          message: `Notice: ${result.error}. Please make sure you have enabled Firestore and set Rules to 'Test Mode' in the Firebase Console!`,
           type: 'error'
         });
       }

@@ -11,13 +11,14 @@ import {
 // 2. Create a new project or select existing
 // 3. Go to Project Settings > General > Your apps > Web app
 // 4. Copy the config object below and replace the placeholder values
+// Firebase project configuration using environment variables
 const firebaseConfig = {
-  apiKey: 'YOUR_API_KEY',
-  authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
-  projectId: 'kamesh-shashini-invitation',
-  storageBucket: 'YOUR_PROJECT_ID.appspot.com',
-  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-  appId: 'YOUR_APP_ID'
+  apiKey: "AIzaSyC_C1T43YT_pMojth3Hzv8pNPVjp__sE9U",
+  authDomain: "kamesh-shashini-wedding.firebaseapp.com",
+  projectId: "kamesh-shashini-wedding",
+  storageBucket: "kamesh-shashini-wedding.firebasestorage.app",
+  messagingSenderId: "1046430467568",
+  appId: "1:1046430467568:web:014d4c47092379a526c935"
 };
 
 // Initialize Firebase
@@ -28,11 +29,19 @@ export const submitRSVP = async (guestName: string, attendance: string) => {
   console.log('submitRSVP started for:', guestName);
   try {
     console.log('Attempting to add document to Firestore...');
-    const docRef = await addDoc(collection(db, 'rsvps'), {
+    
+    // Add a 10-second timeout to the Firestore operation
+    const firestorePromise = addDoc(collection(db, 'rsvps'), {
       guestName,
       attendance,
       timestamp: serverTimestamp()
     });
+
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Firebase connection timed out')), 10000)
+    );
+
+    const docRef = await Promise.race([firestorePromise, timeoutPromise]) as any;
     console.log('Firestore document added with ID:', docRef.id);
 
     // Send to Google Sheets if configured
