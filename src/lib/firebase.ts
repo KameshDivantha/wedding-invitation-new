@@ -1,8 +1,10 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, User } from 'firebase/auth';
 import {
   getFirestore,
   collection,
-  addDoc,
+  doc,
+  setDoc,
   serverTimestamp } from
 'firebase/firestore';
 
@@ -24,16 +26,31 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
+export const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
-export const submitRSVP = async (guestName: string, attendance: string) => {
-  console.log('submitRSVP started for:', guestName);
+export const signInWithGoogle = async () => {
   try {
-    console.log('Attempting to add document to Firestore...');
-    
-    // Add a 10-second timeout to the Firestore operation
-    const firestorePromise = addDoc(collection(db, 'rsvps'), {
+    const result = await signInWithPopup(auth, googleProvider);
+    return { success: true, user: result.user };
+  } catch (error) {
+    console.error('Error signing in with Google:', error);
+    return { success: false, error };
+  }
+};
+
+export { onAuthStateChanged };
+export type { User };
+
+export const submitRSVP = async (guestName: string, attendance: string, email: string) => {
+  const docId = email.toLowerCase().trim();
+  console.log('submitRSVP started for:', guestName, 'with ID:', docId);
+  try {
+    // Use setDoc with the email as the ID to allow updates
+    const firestorePromise = setDoc(doc(db, 'rsvps', docId), {
       guestName,
       attendance,
+      email: docId,
       timestamp: serverTimestamp()
     });
 
@@ -41,8 +58,8 @@ export const submitRSVP = async (guestName: string, attendance: string) => {
       setTimeout(() => reject(new Error('Firebase connection timed out')), 10000)
     );
 
-    const docRef = await Promise.race([firestorePromise, timeoutPromise]) as any;
-    console.log('Firestore document added with ID:', docRef.id);
+    await Promise.race([firestorePromise, timeoutPromise]);
+    console.log('Firestore document set with ID:', docId);
 
     // Send to Google Sheets if configured
     const googleSheetsUrl = import.meta.env.VITE_GOOGLE_SHEETS_URL;
@@ -68,6 +85,7 @@ export const submitRSVP = async (guestName: string, attendance: string) => {
           body: JSON.stringify({
             name: guestName,
             attendance: attendance,
+            email: docId,
           }),
           signal: controller.signal
         });
@@ -77,7 +95,7 @@ export const submitRSVP = async (guestName: string, attendance: string) => {
       }
     }
 
-    return { success: true, id: docRef.id };
+    return { success: true, id: docId };
   } catch (error) {
     console.error('Error adding RSVP: ', error);
     return { success: false, error };

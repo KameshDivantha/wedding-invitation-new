@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedSection } from './AnimatedSection';
-import { submitRSVP } from '../lib/firebase';
-import { Heart } from 'lucide-react';
+import { submitRSVP, auth, signInWithGoogle, onAuthStateChanged, User } from '../lib/firebase';
+import { Heart, LogIn } from 'lucide-react';
 import { RomanticModal } from './RomanticModal';
 
 export function RSVPSection() {
   const [name, setName] = useState('');
+  const [user, setUser] = useState<User | null>(null);
   const [attendance, setAttendance] = useState<'attending' | 'declining' | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [modal, setModal] = useState({ 
     isOpen: false, 
@@ -16,12 +18,45 @@ export function RSVPSection() {
     message: '', 
     type: 'success' as 'success' | 'error' | 'loading' 
   });
+  const [submittedData, setSubmittedData] = useState<{ name: string; attendance: string; email: string } | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    const savedRSVP = localStorage.getItem('wedding_rsvp_response');
+    if (savedRSVP) {
+      try {
+        setSubmittedData(JSON.parse(savedRSVP));
+        setSubmitStatus('success');
+      } catch (e) {
+        console.error('Error parsing saved RSVP', e);
+      }
+    }
+    return () => unsubscribe();
+  }, []);
+
+  const handleGoogleSignIn = async () => {
+    setIsLoggingIn(true);
+    const result = await signInWithGoogle();
+    setIsLoggingIn(false);
+    if (!result.success) {
+      setModal({
+        isOpen: true,
+        title: 'Sign In Failed',
+        message: 'We couldn\'t sign you in. Please try again.',
+        type: 'error'
+      });
+    }
+  };
+
+    const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('RSVP Form submitted', { name, attendance });
-    if (!name.trim() || !attendance) {
-      console.warn('Missing name or attendance');
+    const userEmail = user?.email || '';
+    console.log('RSVP Form submitted', { name, userEmail, attendance });
+    if (!name.trim() || !userEmail || !attendance) {
+      console.warn('Missing name, user email, or attendance');
       return;
     }
     setIsSubmitting(true);
@@ -35,7 +70,8 @@ export function RSVPSection() {
 
     try {
       console.log('Calling submitRSVP...');
-      const result = await submitRSVP(name, attendance);
+      const userEmail = user?.email || '';
+      const result = await submitRSVP(name, attendance, userEmail);
       console.log('submitRSVP result:', result);
       setIsSubmitting(false);
       
@@ -44,12 +80,17 @@ export function RSVPSection() {
         const isAttending = attendance === 'attending';
         setModal({
           isOpen: true,
-          title: isAttending ? 'We Can\'t Wait!' : 'We\'ll Miss You!',
+          title: isAttending ? 'Response Updated!' : 'Response Updated!',
           message: isAttending 
-            ? `Thank you, ${name}! We're so joyful to have you celebrate with us.` 
-            : `Thank you for letting us know, ${name}. You'll be with us in spirit!`,
+            ? `Thank you, ${name}! Your response has been saved/updated.` 
+            : `Thank you for letting us know, ${name}. Your response has been saved/updated.`,
           type: 'success'
         });
+        
+        // Save to localStorage to prevent multiple submissions
+        const dataToSave = { name, attendance, email: userEmail };
+        localStorage.setItem('wedding_rsvp_response', JSON.stringify(dataToSave));
+        setSubmittedData(dataToSave);
       } else {
         setSubmitStatus('error');
         setModal({
@@ -108,16 +149,53 @@ export function RSVPSection() {
           {submitStatus === 'success' ?
           <div className="py-12 animate-fade-in">
               <h3 className="font-serif text-2xl text-wedding-text mb-4">
-                Thank you, {name}!
+                Thank you, {submittedData?.name || name}!
               </h3>
               <p className="font-serif text-lg text-wedding-text-light">
-                {attendance === 'attending' ?
+                {(submittedData?.attendance || attendance) === 'attending' ?
               'We look forward to celebrating with you.' :
               'We will miss you, thank you for letting us know.'}
+              </p>
+              <p className="mt-6 font-sans text-[10px] text-wedding-text-muted uppercase tracking-widest opacity-50">
+                Your response has been saved
+              </p>
+              <button 
+                onClick={() => {
+                  setName(submittedData?.name || user?.displayName || '');
+                  setSubmitStatus('idle');
+                }}
+                className="mt-8 text-gold-600 font-sans text-[10px] tracking-widest uppercase hover:text-gold-500 transition-colors border-b border-gold-200">
+                Update My Response
+              </button>
+            </div> :
+          !user ?
+          <div className="py-12 space-y-6">
+              <p className="font-serif text-lg text-wedding-text-light">
+                Please sign in with Google to confirm your attendance.
+              </p>
+              <button
+                onClick={handleGoogleSignIn}
+                disabled={isLoggingIn}
+                className="inline-flex items-center gap-3 px-8 py-3 bg-white border-2 border-gold-200 text-gold-600 font-sans text-xs tracking-[0.15em] uppercase rounded-full hover:bg-gold-50 hover:border-gold-300 transition-all duration-300 shadow-sm">
+                <LogIn size={16} />
+                {isLoggingIn ? 'Signing In...' : 'Sign In with Google'}
+              </button>
+              <p className="text-[10px] text-wedding-text-muted/60 font-sans uppercase tracking-tighter max-w-xs mx-auto">
+                We use your email as a secure key to let you update your response later.
               </p>
             </div> :
 
           <form onSubmit={handleSubmit} className="space-y-8 text-left">
+              <div className="flex items-center gap-4 p-4 bg-gold-50/50 rounded-xl border border-gold-100">
+                {user.photoURL && (
+                  <img src={user.photoURL} alt={user.displayName || ''} className="w-10 h-10 rounded-full border border-gold-200" />
+                )}
+                <div className="text-left">
+                  <p className="font-sans text-[10px] text-gold-600 uppercase tracking-widest leading-none mb-1">Signed in as</p>
+                  <p className="font-serif text-sm text-wedding-text font-medium">{user.email}</p>
+                </div>
+              </div>
+
               <div>
                 <label htmlFor="rsvp-name" className="sr-only">
                   Guest Name(s)
@@ -130,7 +208,6 @@ export function RSVPSection() {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name(s)..."
                 className="w-full bg-transparent border-b-2 border-gold-200 py-3 px-2 font-serif text-xl text-wedding-text placeholder:text-wedding-text-muted/60 focus:outline-none focus:border-gold-400 transition-colors" />
-              
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
@@ -162,7 +239,7 @@ export function RSVPSection() {
                 disabled={!name.trim() || !attendance || isSubmitting}
                 className="inline-block px-12 py-4 bg-gradient-to-r from-gold-400 to-gold-600 text-white font-sans text-sm tracking-[0.15em] uppercase rounded-full hover:shadow-lg hover:shadow-gold-300/30 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none">
                 
-                  {isSubmitting ? 'Sending...' : 'Send Reply'}
+                  {isSubmitting ? 'Sending...' : submittedData ? 'Update Response' : 'Send Reply'}
                 </button>
               </div>
             </form>
