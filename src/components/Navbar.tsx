@@ -52,7 +52,7 @@ export function Navbar() {
         duration: 0.6,
         ease: 'easeOut'
       }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-white/85 backdrop-blur-md shadow-sm border-b border-wedding-border' : 'bg-transparent'}`}>
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-white/85 backdrop-blur-md shadow-sm border-b border-gold-200' : 'bg-transparent'}`}>
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16">
@@ -60,7 +60,7 @@ export function Navbar() {
           <a
             href="#hero"
             onClick={(e) => handleNavClick(e, '#hero')}
-            className="font-script text-2xl text-lavender-500 hover:text-lavender-600 transition-colors">
+            className="font-script text-2xl text-gold-500 hover:text-gold-600 transition-colors">
             
             K & S
           </a>
@@ -72,7 +72,7 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
-              className="font-sans text-xs tracking-[0.2em] uppercase text-wedding-text-light hover:text-lavender-500 transition-colors duration-300">
+              className="font-sans text-xs tracking-[0.2em] uppercase text-wedding-text-light hover:text-gold-500 transition-colors duration-300">
               
                 {link.label}
               </a>
@@ -80,7 +80,7 @@ export function Navbar() {
             <a
               href="#rsvp"
               onClick={(e) => handleNavClick(e, '#rsvp')}
-              className="font-sans text-xs tracking-[0.15em] uppercase px-6 py-2 bg-rose text-white rounded-full hover:bg-rose-dark transition-colors duration-300 shadow-sm">
+              className="font-sans text-xs tracking-[0.15em] uppercase px-6 py-2 bg-gold-500 text-white rounded-full hover:bg-gold-600 transition-colors duration-300 shadow-sm">
               
               RSVP
             </a>
@@ -89,7 +89,7 @@ export function Navbar() {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setIsMobileOpen(!isMobileOpen)}
-            className="md:hidden p-2 text-wedding-text-light hover:text-lavender-500 transition-colors"
+            className="md:hidden p-2 text-wedding-text-light hover:text-gold-500 transition-colors"
             aria-label={isMobileOpen ? 'Close menu' : 'Open menu'}>
             
             {isMobileOpen ?
@@ -121,7 +121,7 @@ export function Navbar() {
             duration: 0.3,
             ease: 'easeInOut'
           }}
-          className="md:hidden bg-white/95 backdrop-blur-md border-b border-wedding-border overflow-hidden">
+          className="md:hidden bg-white/95 backdrop-blur-md border-b border-gold-200 overflow-hidden">
           
             <div className="px-6 py-6 flex flex-col gap-5">
               {navLinks.map((link) =>
@@ -129,7 +129,7 @@ export function Navbar() {
               key={link.href}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
-              className="font-sans text-sm tracking-[0.15em] uppercase text-wedding-text-light hover:text-lavender-500 transition-colors">
+              className="font-sans text-sm tracking-[0.15em] uppercase text-wedding-text-light hover:text-gold-500 transition-colors">
               
                   {link.label}
                 </a>
@@ -137,7 +137,7 @@ export function Navbar() {
               <a
               href="#rsvp"
               onClick={(e) => handleNavClick(e, '#rsvp')}
-              className="font-sans text-sm tracking-[0.15em] uppercase px-6 py-3 bg-rose text-white rounded-full text-center hover:bg-rose-dark transition-colors shadow-sm">
+              className="font-sans text-sm tracking-[0.15em] uppercase px-6 py-3 bg-gold-500 text-white rounded-full text-center hover:bg-gold-600 transition-colors shadow-sm">
               
                 RSVP
               </a>

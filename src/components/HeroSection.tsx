@@ -20,11 +20,11 @@ const images = [
     alt: 'Kamesh and Shashini first steps'
   },
   {
-    src: '/Image_(2).jpeg',
+    src: '/image_(2).jpeg',
     alt: 'Kamesh and Shashini on garden steps'
   },
   {
-    src: '/Image_(3).jpeg',
+    src: '/image_(3).jpeg',
     alt: 'Kamesh and Shashini under the arch'
   },
   {
@@ -32,7 +32,7 @@ const images = [
     alt: 'Kamesh and Shashini hearts as one'
   },
   {
-    src: '/Image_(13).jpeg',
+    src: '/image_(13).jpeg',
     alt: 'Kamesh and Shashini forever'
   }
 ];
@@ -82,11 +82,11 @@ export function HeroSection() {
       <div className="absolute inset-0 pointer-events-none">
         <div
           className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20 animate-blob"
-          style={{ background: 'radial-gradient(circle, rgba(200,162,200,0.4) 0%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.4) 0%, transparent 70%)' }}
         />
         <div
           className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-15 animate-blob"
-          style={{ background: 'radial-gradient(circle, rgba(212,132,154,0.3) 0%, transparent 70%)', animationDelay: '3s' }}
+          style={{ background: 'radial-gradient(circle, rgba(231,209,161,0.3) 0%, transparent 70%)', animationDelay: '3s' }}
         />
       </div>
 
@@ -103,7 +103,7 @@ export function HeroSection() {
             bottom: '-20px',
             width: p.size,
             height: p.size,
-            background: i % 2 === 0 ? 'rgba(200,162,200,0.6)' : 'rgba(212,132,154,0.5)',
+            background: i % 2 === 0 ? 'rgba(212,175,55,0.6)' : 'rgba(231,209,161,0.5)',
             animationDuration: `${p.duration}s`,
             animationDelay: `${p.delay}s`,
           }}
@@ -111,10 +111,10 @@ export function HeroSection() {
       ))}
 
       {/* Floral decorations */}
-      <FloralDecoration className="absolute top-20 left-0 w-48 h-48 text-lavender-300 opacity-50" />
-      <FloralDecoration className="absolute top-20 right-0 w-48 h-48 text-lavender-300 opacity-50 -scale-x-100" />
-      <FloralDecoration className="absolute bottom-10 left-10 w-36 h-36 text-rose opacity-30 rotate-45" />
-      <FloralDecoration className="absolute bottom-10 right-10 w-36 h-36 text-rose opacity-30 -rotate-45 -scale-x-100" />
+      <FloralDecoration className="absolute top-20 left-0 w-48 h-48 text-gold-200 opacity-50" />
+      <FloralDecoration className="absolute top-20 right-0 w-48 h-48 text-gold-200 opacity-50 -scale-x-100" />
+      <FloralDecoration className="absolute bottom-10 left-10 w-36 h-36 text-champagne-dark opacity-30 rotate-45" />
+      <FloralDecoration className="absolute bottom-10 right-10 w-36 h-36 text-champagne-dark opacity-30 -rotate-45 -scale-x-100" />
 
       <div className="relative z-10 flex flex-col items-center w-full max-w-5xl mx-auto px-4 py-12 md:py-20">
 
@@ -133,7 +133,7 @@ export function HeroSection() {
               className="relative z-20">
 
               {/* Polaroid frame */}
-              <div className="bg-white p-2 md:p-3 shadow-[0_20px_60px_rgba(155,124,184,0.25)] rounded-sm group">
+              <div className="bg-white p-2 md:p-3 shadow-[0_20px_60px_rgba(212,175,55,0.25)] rounded-sm group">
                 <img
                   src={images[currentIndex].src}
                   alt={images[currentIndex].alt}
@@ -142,20 +142,20 @@ export function HeroSection() {
                 {/* Shimmer overlay on hover */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-sm" />
                 {/* Decorative inner border */}
-                <div className="absolute inset-0 border border-lavender-100/40 m-3 pointer-events-none" />
+                <div className="absolute inset-0 border border-gold-100/40 m-3 pointer-events-none" />
               </div>
 
               {/* Floating heart decor */}
               <motion.div
                 animate={{ y: [0, -10, 0], rotate: [0, 8, 0] }}
                 transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
-                className="absolute -top-5 -right-5 text-rose opacity-40 pointer-events-none hidden md:block">
+                className="absolute -top-5 -right-5 text-gold-400 opacity-40 pointer-events-none hidden md:block">
                 <Heart size={28} fill="currentColor" />
               </motion.div>
               <motion.div
                 animate={{ y: [0, 8, 0], rotate: [0, -5, 0] }}
                 transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut', delay: 1 }}
-                className="absolute -bottom-4 -left-5 text-lavender-300 opacity-30 pointer-events-none hidden md:block">
+                className="absolute -bottom-4 -left-5 text-gold-200 opacity-30 pointer-events-none hidden md:block">
                 <Heart size={22} fill="currentColor" />
               </motion.div>
             </motion.div>
@@ -182,8 +182,8 @@ export function HeroSection() {
               onClick={() => setCurrentIndex(i)}
               className={`transition-all duration-500 rounded-full ${
                 i === currentIndex
-                  ? 'w-6 h-2 bg-lavender-400'
-                  : 'w-2 h-2 bg-lavender-200 hover:bg-lavender-300'
+                  ? 'w-6 h-2 bg-gold-400'
+                  : 'w-2 h-2 bg-gold-200 hover:bg-gold-300'
               }`}
             />
           ))}
@@ -194,7 +194,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.7, ease: 'easeOut' }}
-          className="font-script text-5xl md:text-7xl lg:text-8xl text-lavender-500 mb-4 animate-glow-pulse text-center">
+          className="font-script text-5xl md:text-7xl lg:text-8xl text-gold-500 mb-4 animate-glow-pulse text-center">
           Together Forever
         </motion.h2>
 
@@ -204,9 +204,9 @@ export function HeroSection() {
           animate={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 0.8, delay: 0.85 }}
           className="flex items-center gap-3 mb-5">
-          <div className="h-px w-16 bg-gradient-to-r from-transparent to-lavender-300" />
-          <Heart size={12} className="text-rose opacity-60" fill="currentColor" />
-          <div className="h-px w-16 bg-gradient-to-l from-transparent to-lavender-300" />
+          <div className="h-px w-16 bg-gradient-to-r from-transparent to-gold-300" />
+          <Heart size={12} className="text-gold-400 opacity-60" fill="currentColor" />
+          <div className="h-px w-16 bg-gradient-to-l from-transparent to-gold-300" />
         </motion.div>
 
         {/* Names */}
@@ -222,7 +222,7 @@ export function HeroSection() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 1.1 }}
-            className="font-serif italic text-xl md:text-2xl text-rose font-medium mt-1">
+            className="font-serif italic text-xl md:text-2xl text-gold-600 font-medium mt-1">
             We invite you to celebrate our wedding
           </motion.p>
         </motion.div>
@@ -234,7 +234,7 @@ export function HeroSection() {
           transition={{ duration: 0.8, delay: 1.1 }}
           className="mt-6 font-sans tracking-[0.25em] text-xs md:text-sm text-wedding-text-muted uppercase">
           June 4, 2026
-          <span className="mx-3 text-lavender-300">•</span>
+          <span className="mx-3 text-gold-200">•</span>
           Matara
         </motion.div>
 
@@ -246,7 +246,7 @@ export function HeroSection() {
             opacity: { duration: 0.8, delay: 1.5 },
             scale: { repeat: Infinity, duration: 1.6, ease: 'easeInOut', delay: 1.5 }
           }}
-          className="mt-10 text-rose drop-shadow-sm">
+          className="mt-10 text-gold-400 drop-shadow-sm">
           <div className="relative w-14 h-9 flex items-center justify-center">
             <Heart
               size={28}

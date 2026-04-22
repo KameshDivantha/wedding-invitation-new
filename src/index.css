@@ -9,8 +9,8 @@
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 
 :root {
-  --color-lavender-wash: rgba(200, 162, 200, 0.15);
-  --color-rose-wash: rgba(212, 132, 154, 0.1);
+  --color-gold-wash: rgba(212, 175, 55, 0.15);
+  --color-champagne-wash: rgba(231, 209, 161, 0.1);
 }
 body {
   @apply bg-wedding-bg text-wedding-text font-serif;
@@ -26,9 +26,9 @@ html {
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(200, 162, 200, 0.12) 20%,
-    rgba(200, 162, 200, 0.2) 50%,
-    rgba(200, 162, 200, 0.12) 80%,
+    rgba(212, 175, 55, 0.12) 20%,
+    rgba(212, 175, 55, 0.2) 50%,
+    rgba(212, 175, 55, 0.12) 80%,
     transparent 100%
   );
   mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1200 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 40 Q150 10 300 45 Q450 80 600 35 Q750 -10 900 40 Q1050 90 1200 30 L1200 80 L0 80Z' fill='white'/%3E%3C/svg%3E");
@@ -42,10 +42,10 @@ html {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #F8F6FC;
+  background: #FAF9F6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #C8A2C8;
+  background: #D4AF37;
   border-radius: 3px;
 }
 
@@ -69,8 +69,8 @@ html {
 
 /* Soft glow pulse */
 @keyframes glow-pulse {
-  0%, 100% { text-shadow: 0 0 20px rgba(155, 124, 184, 0.3), 0 0 40px rgba(155, 124, 184, 0.1); }
-  50%       { text-shadow: 0 0 40px rgba(155, 124, 184, 0.6), 0 0 80px rgba(155, 124, 184, 0.2); }
+  0%, 100% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.3), 0 0 40px rgba(212, 175, 55, 0.1); }
+  50%       { text-shadow: 0 0 40px rgba(212, 175, 55, 0.6), 0 0 80px rgba(212, 175, 55, 0.2); }
 }
 
 /* Heartbeat */
@@ -128,21 +128,21 @@ html {
 
 /* Glassmorphism card */
 .glass-card {
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(200,162,200,0.25);
+  border: 1px solid rgba(212, 175, 55, 0.25);
 }
 
 /* Shimmer text gradient */
 .shimmer-text {
   background: linear-gradient(
     90deg,
-    #9B7CB8 0%,
-    #C8A2C8 30%,
-    #D4849A 50%,
-    #C8A2C8 70%,
-    #9B7CB8 100%
+    #B89332 0%,
+    #D4AF37 30%,
+    #E7D1A1 50%,
+    #D4AF37 70%,
+    #B89332 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;

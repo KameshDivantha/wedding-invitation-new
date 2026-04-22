@@ -7,28 +7,27 @@ export default {
   theme: {
     extend: {
       colors: {
-        lavender: {
-          50: '#F8F6FC',
-          100: '#F0EBF7',
-          200: '#E2D8F0',
-          300: '#C8A2C8',
-          400: '#B48CC4',
-          500: '#9B7CB8',
-          600: '#7E5FA0',
-          700: '#614585',
+        gold: {
+          50: '#FAF9F6',
+          100: '#F5EEDC',
+          200: '#EADCB5',
+          300: '#D4AF37',
+          400: '#B89332',
+          500: '#9C7A2B',
+          600: '#7A5F22',
         },
-        rose: {
-          light: '#F2D1DC',
-          DEFAULT: '#D4849A',
-          dark: '#B8607A',
+        champagne: {
+          light: '#F7E7CE',
+          DEFAULT: '#E7D1A1',
+          dark: '#C5A059',
         },
         wedding: {
-          bg: '#F8F6FC',
+          bg: '#FAF9F6',
           card: '#FFFFFF',
-          text: '#2D2D2D',
-          'text-light': '#6B6B6B',
-          'text-muted': '#9B9B9B',
-          border: '#E8E0F0',
+          text: '#3D3522',
+          'text-light': '#7A6E4E',
+          'text-muted': '#A69B7C',
+          border: '#EADCB5',
         },
       },
       fontFamily: {

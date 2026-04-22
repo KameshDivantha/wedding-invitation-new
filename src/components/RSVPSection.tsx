@@ -76,29 +76,29 @@ export function RSVPSection() {
       {/* Animated background blobs */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full blur-3xl opacity-25 animate-blob"
-          style={{ background: 'radial-gradient(circle, rgba(200,162,200,0.5) 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.5) 0%, transparent 70%)' }} />
         <div className="absolute -bottom-32 -left-32 w-80 h-80 rounded-full blur-3xl opacity-20 animate-blob"
-          style={{ background: 'radial-gradient(circle, rgba(212,132,154,0.4) 0%, transparent 70%)', animationDelay: '3s' }} />
+          style={{ background: 'radial-gradient(circle, rgba(231,209,161,0.4) 0%, transparent 70%)', animationDelay: '3s' }} />
       </div>
 
       <div className="max-w-2xl mx-auto relative z-10">
-        <div className="glass-card p-8 md:p-16 shadow-xl border-lavender-200 rounded-2xl text-center relative overflow-hidden">
+        <div className="glass-card p-8 md:p-16 shadow-xl border-gold-200 rounded-2xl text-center relative overflow-hidden">
           {/* Glowing corner decorations */}
-          <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-lavender-300 rounded-tl-lg opacity-50" />
-          <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-lavender-300 rounded-tr-lg opacity-50" />
-          <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-lavender-300 rounded-bl-lg opacity-50" />
-          <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-lavender-300 rounded-br-lg opacity-50" />
+          <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 border-gold-300 rounded-tl-lg opacity-50" />
+          <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 border-gold-300 rounded-tr-lg opacity-50" />
+          <div className="absolute bottom-4 left-4 w-12 h-12 border-b-2 border-l-2 border-gold-300 rounded-bl-lg opacity-50" />
+          <div className="absolute bottom-4 right-4 w-12 h-12 border-b-2 border-r-2 border-gold-300 rounded-br-lg opacity-50" />
 
           {/* Animated heart */}
           <div className="flex justify-center mb-5">
             <motion.div
               animate={{ scale: [1, 1.2, 1], rotate: [0, 5, -5, 0] }}
               transition={{ repeat: Infinity, duration: 2.5, ease: 'easeInOut' }}>
-              <Heart className="w-9 h-9 text-rose" fill="currentColor" strokeWidth={0} />
+              <Heart className="w-9 h-9 text-gold-500" fill="currentColor" strokeWidth={0} />
             </motion.div>
           </div>
 
-          <h2 className="font-script text-5xl md:text-6xl text-lavender-500 mb-2">
+          <h2 className="font-script text-5xl md:text-6xl text-gold-500 mb-2">
             Kindly Respond
           </h2>
           <p className="font-sans text-xs tracking-[0.2em] text-wedding-text-muted uppercase mb-10">
@@ -129,7 +129,7 @@ export function RSVPSection() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Your name(s)..."
-                className="w-full bg-transparent border-b-2 border-lavender-200 py-3 px-2 font-serif text-xl text-wedding-text placeholder:text-wedding-text-muted/60 focus:outline-none focus:border-lavender-400 transition-colors" />
+                className="w-full bg-transparent border-b-2 border-gold-200 py-3 px-2 font-serif text-xl text-wedding-text placeholder:text-wedding-text-muted/60 focus:outline-none focus:border-gold-400 transition-colors" />
               
               </div>
 
@@ -137,14 +137,14 @@ export function RSVPSection() {
                 <button
                 type="button"
                 onClick={() => setAttendance('attending')}
-                className={`py-4 px-6 font-serif text-lg transition-all duration-300 border-2 rounded-xl ${attendance === 'attending' ? 'bg-lavender-500 border-lavender-500 text-white shadow-md' : 'bg-transparent border-lavender-200 text-wedding-text hover:border-lavender-400'}`}>
+                className={`py-4 px-6 font-serif text-lg transition-all duration-300 border-2 rounded-xl ${attendance === 'attending' ? 'bg-gold-500 border-gold-500 text-white shadow-md' : 'bg-transparent border-gold-200 text-wedding-text hover:border-gold-400'}`}>
                 
                   Joyfully Accepts
                 </button>
                 <button
                 type="button"
                 onClick={() => setAttendance('declining')}
-                className={`py-4 px-6 font-serif text-lg transition-all duration-300 border-2 rounded-xl ${attendance === 'declining' ? 'bg-rose border-rose text-white shadow-md' : 'bg-transparent border-lavender-200 text-wedding-text hover:border-rose-light'}`}>
+                className={`py-4 px-6 font-serif text-lg transition-all duration-300 border-2 rounded-xl ${attendance === 'declining' ? 'bg-champagne-dark border-champagne-dark text-white shadow-md' : 'bg-transparent border-gold-200 text-wedding-text hover:border-champagne-dark'}`}>
                 
                   Respectfully Declines
                 </button>
@@ -160,7 +160,7 @@ export function RSVPSection() {
                 <button
                 type="submit"
                 disabled={!name.trim() || !attendance || isSubmitting}
-                className="inline-block px-12 py-4 bg-gradient-to-r from-rose to-rose-dark text-white font-sans text-sm tracking-[0.15em] uppercase rounded-full hover:shadow-lg hover:shadow-rose/30 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none">
+                className="inline-block px-12 py-4 bg-gradient-to-r from-gold-400 to-gold-600 text-white font-sans text-sm tracking-[0.15em] uppercase rounded-full hover:shadow-lg hover:shadow-gold-300/30 hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:shadow-none">
                 
                   {isSubmitting ? 'Sending...' : 'Send Reply'}
                 </button>
